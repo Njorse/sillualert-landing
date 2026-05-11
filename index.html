@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,11 +19,9 @@
 
     .container{width:100%;max-width:1200px;margin:0 auto;padding:0 40px}
 
-    /* Reveal */
     .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
     .reveal.visible{opacity:1;transform:translateY(0)}
 
-    /* Badge inline */
     .tag-label{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:4px}
 
     /* ── NAVBAR ── */
@@ -32,12 +30,17 @@
     .nav .container{display:flex;align-items:center;justify-content:space-between}
     .nav-logo{font-size:22px;font-weight:800;color:#fff;cursor:pointer;letter-spacing:-.02em}
     .nav-logo .dot{color:var(--accent)}
-    .nav-links{display:flex;align-items:center;gap:36px}
+    .nav-links{display:flex;align-items:center;gap:30px}
     .nav-links a{font-size:13px;font-weight:500;color:rgba(255,255,255,.6);transition:color .2s}
     .nav-links a:hover{color:#fff}
     .btn-nav{font-size:12px;font-weight:700;color:var(--black);background:var(--accent);padding:10px 22px;border-radius:6px;border:0;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:4px;letter-spacing:.02em}
     .btn-nav:hover{background:var(--accent-glow);transform:translateY(-1px)}
     .btn-nav:active{transform:scale(.98)}
+
+    /* ── LANG TOGGLE ── */
+    .lang-toggle{font-size:11px;font-weight:700;color:var(--accent);background:rgba(0,200,83,.08);border:1px solid rgba(0,200,83,.2);padding:8px 14px;border-radius:6px;cursor:pointer;letter-spacing:.04em;transition:all .2s;margin-left:4px;font-family:'Inter',system-ui,sans-serif}
+    .lang-toggle:hover{background:rgba(0,200,83,.15);border-color:rgba(0,200,83,.35)}
+    .lang-toggle.active-qu{background:var(--accent);color:var(--black);border-color:var(--accent)}
 
     .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:0;border:0;z-index:1001}
     .hamburger span{display:block;width:22px;height:2px;background:#fff;transition:.3s}
@@ -69,7 +72,6 @@
     .btn-ghost:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.04)}
     .btn-ghost:active{transform:scale(.98)}
 
-    /* Stats row */
     .hero-stats{display:flex;margin-top:80px;border-top:1px solid rgba(255,255,255,.06);padding-top:42px;flex-wrap:wrap}
     .hero-stat{flex:1;min-width:140px;padding-right:40px;border-right:1px solid rgba(255,255,255,.06)}
     .hero-stat:last-child{border-right:0}
@@ -77,7 +79,6 @@
     .hero-stat .num span{color:var(--accent)}
     .hero-stat .lbl{font-size:12px;color:rgba(255,255,255,.35);margin-top:6px;font-weight:500}
 
-    /* ── IMAGE GALLERY STRIP ── */
     .gallery{position:relative;z-index:5;margin-top:-60px}
     .gallery .container{padding:0 28px}
     .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -85,7 +86,6 @@
     .gallery-tile:hover{transform:translateY(-4px)}
     .gallery-tile .cap{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;font-size:12px;font-weight:600;letter-spacing:.02em}
 
-    /* ── SECTIONS ── */
     section{padding:120px 0}
     .sec-header{margin-bottom:72px}
     .sec-header .tag-label{margin-bottom:18px}
@@ -102,7 +102,6 @@
     .bg-light .tag-label{background:var(--black);color:#fff}
     .bg-gray .tag-label{background:var(--black);color:#fff}
 
-    /* ── PROBLEM GRID ── */
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .card-problem{border-radius:8px;overflow:hidden;background:#fff;border:1px solid var(--border);transition:all .35s cubic-bezier(.16,1,.3,1)}
     .card-problem:hover{transform:translateY(-4px);border-color:#aaa;box-shadow:0 12px 40px rgba(0,0,0,.06)}
@@ -113,7 +112,6 @@
     .card-problem .body .stat{font-size:32px;font-weight:800;color:var(--black);line-height:1}
     .card-problem .body p{font-size:14px;color:var(--gray);margin-top:10px;line-height:1.7}
 
-    /* ── SOLUTION GRID ── */
     .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
     .card-sol{background:#141414;border:1px solid #222;border-radius:8px;padding:36px;transition:all .3s;position:relative}
     .card-sol:hover{background:#1a1a1a;border-color:#333}
@@ -123,7 +121,6 @@
     .card-sol p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.7}
     .card-sol .chip{position:absolute;top:20px;right:20px;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:rgba(0,200,83,.06);padding:4px 10px;border-radius:3px}
 
-    /* ── IMPACT ── */
     .card-impact{background:#fff;border:1px solid var(--border);border-radius:8px;padding:34px;transition:all .3s}
     .card-impact:hover{border-color:#aaa;box-shadow:0 8px 30px rgba(0,0,0,.04)}
     .card-impact h3{font-size:17px;font-weight:700;color:var(--black);margin-bottom:8px;letter-spacing:-.01em}
@@ -132,7 +129,6 @@
     .pill{font-size:12px;font-weight:700;padding:10px 24px;border-radius:6px;background:var(--black);color:#fff;letter-spacing:.02em;transition:all .2s}
     .pill:hover{background:var(--accent);color:var(--black)}
 
-    /* ── CTA ── */
     .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
     .cta-left .tag-label{background:rgba(0,200,83,.08);color:var(--accent);margin-bottom:20px}
     .cta-left h2{font-size:clamp(28px,4.5vw,38px);font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em}
@@ -153,7 +149,6 @@
     .form-ok p{color:rgba(255,255,255,.35);font-size:14px;margin-top:6px}
     .form-ok .q{color:rgba(255,255,255,.25);font-size:13px;margin-top:8px;font-style:italic}
 
-    /* ── FOOTER ── */
     footer{background:var(--black);padding:70px 0 40px;color:rgba(255,255,255,.3);font-size:13px}
     .ft-grid{display:grid;grid-template-columns:2fr 1fr;gap:50px}
     .ft-brand .flogo{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em}
@@ -165,10 +160,9 @@
     .ft-links a:hover{color:var(--accent)}
     .ft-bottom{border-top:1px solid rgba(255,255,255,.04);margin-top:50px;padding-top:24px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.15)}
 
-    /* ── RESPONSIVE ── */
     @media(max-width:900px){.grid-3{grid-template-columns:1fr 1fr}.grid-3 .card-problem:last-child{grid-column:1/-1;max-width:480px;justify-self:center}.gallery-grid{grid-template-columns:1fr 1fr}}
     @media(max-width:768px){
-      .nav-links{display:none}.hamburger{display:flex}
+      .nav-links{display:none}.hamburger{display:flex}.lang-toggle{margin-left:0;margin-right:8px}
       .hero{padding:140px 0 100px;text-align:center}
       .hero h1{max-width:100%}.hero-sub{margin-left:auto;margin-right:auto}.hero-btns{justify-content:center}
       .hero-stats{gap:16px}.hero-stat{flex:1 1 calc(50% - 16px);border-right:0!important;padding:0 8px;min-width:0;text-align:center}
@@ -200,21 +194,22 @@
     <div class="container">
       <span class="nav-logo" id="logo" tabindex="0" role="button" aria-label="Sillu-Alert">Sillu<span class="dot">Alert</span></span>
       <div class="nav-links">
-        <a href="#problema">Problema</a>
-        <a href="#solucion">Solución</a>
-        <a href="#impacto">Impacto</a>
-        <a href="#contacto">Contacto</a>
-        <a class="btn-nav" href="#contacto">Únete →</a>
+        <a href="#problema" data-es="Problema" data-qu="Sasa Kay">Problema</a>
+        <a href="#solucion" data-es="Solución" data-qu="Allichay">Solución</a>
+        <a href="#impacto" data-es="Impacto" data-qu="Ruwasqanchik">Impacto</a>
+        <a href="#contacto" data-es="Contacto" data-qu="Tupay">Contacto</a>
+        <a class="btn-nav" href="#contacto" data-es="Únete →" data-qu="Hukllachakuy →">Únete →</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma" data-es="QU" data-qu="ES">QU</button>
       </div>
       <button class="hamburger" id="ham" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </nav>
   <div class="mob-menu" id="mob" aria-hidden="true">
-    <a href="#problema">Problema</a>
-    <a href="#solucion">Solución</a>
-    <a href="#impacto">Impacto</a>
-    <a href="#contacto">Contacto</a>
-    <a class="btn-nav" href="#contacto">Únete →</a>
+    <a href="#problema" data-es="Problema" data-qu="Sasa Kay">Problema</a>
+    <a href="#solucion" data-es="Solución" data-qu="Allichay">Solución</a>
+    <a href="#impacto" data-es="Impacto" data-qu="Ruwasqanchik">Impacto</a>
+    <a href="#contacto" data-es="Contacto" data-qu="Tupay">Contacto</a>
+    <a class="btn-nav" href="#contacto" data-es="Únete →" data-qu="Hukllachakuy →">Únete →</a>
   </div>
 </header>
 
@@ -225,30 +220,30 @@
   <div class="hero-bg"><img src="https://images.unsplash.com/photo-1526336178075-50c97db8d32a?w=1920&q=80" alt="" aria-hidden="true"></div>
   <div class="hero-gradient"></div>
   <div class="container">
-    <span class="tag-label reveal">Sistema IoT · Alerta Temprana · Sierra Sur</span>
-    <h1 class="reveal">Tecnología que protege el <em>corazón</em> de los Andes</h1>
-    <p class="hero-sub reveal">Alertas climáticas bilingües en tiempo real para salvar tu ganado y asegurar el futuro de tu familia.</p>
+    <span class="tag-label reveal" data-es="Sistema IoT · Alerta Temprana · Sierra Sur" data-qu="Sistema IoT · Ñawpaq Willakuy · Qollana Suyu">Sistema IoT · Alerta Temprana · Sierra Sur</span>
+    <h1 class="reveal"><span data-es="Tecnología que protege el" data-qu="Sonqon"></span> <em data-es="corazón" data-qu="Andeskunata"></em> <span data-es="de los Andes" data-qu="waqaychaq tecnología"></span></h1>
+    <p class="hero-sub reveal" data-es="Alertas climáticas bilingües en tiempo real para salvar tu ganado y asegurar el futuro de tu familia." data-qu="Iskay simipi willakuykuna uywakunata qespichinaykipaq, familiaykipaq qhepa p'unchayta seguranchanaykipaq.">Alertas climáticas bilingües en tiempo real para salvar tu ganado y asegurar el futuro de tu familia.</p>
     <div class="hero-btns reveal">
-      <a href="#contacto" class="btn-fill">Únete a la Red →</a>
-      <a href="#solucion" class="btn-ghost">Ver cómo funciona</a>
+      <a href="#contacto" class="btn-fill" data-es="Únete a la Red →" data-qu="Llikaman Hukllachakuy →">Únete a la Red →</a>
+      <a href="#solucion" class="btn-ghost" data-es="Ver cómo funciona" data-qu="Imayna llank'asqanta qaway">Ver cómo funciona</a>
     </div>
     <div class="hero-stats reveal">
-      <div class="hero-stat"><div class="num"><span data-target="5">0</span></div><div class="lbl">Estaciones activas</div></div>
-      <div class="hero-stat"><div class="num"><span data-target="25">0</span>%</div><div class="lbl">− Pérdida de ganado</div></div>
-      <div class="hero-stat"><div class="num"><span data-target="90">0</span>%</div><div class="lbl">Adopción comunal</div></div>
-      <div class="hero-stat"><div class="num"><span data-target="2">0</span></div><div class="lbl">Idiomas (Quechua · Español)</div></div>
+      <div class="hero-stat"><div class="num"><span data-target="5">0</span></div><div class="lbl" data-es="Estaciones activas" data-qu="Llank'aq estacionkuna">Estaciones activas</div></div>
+      <div class="hero-stat"><div class="num"><span data-target="25">0</span>%</div><div class="lbl" data-es="− Pérdida de ganado" data-qu="− Uywa chinkay">− Pérdida de ganado</div></div>
+      <div class="hero-stat"><div class="num"><span data-target="90">0</span>%</div><div class="lbl" data-es="Adopción comunal" data-qu="Ayllu chaskisqan">Adopción comunal</div></div>
+      <div class="hero-stat"><div class="num"><span data-target="2">0</span></div><div class="lbl" data-es="Idiomas (Quechua · Español)" data-qu="Rimaykuna (Quechua · Español)">Idiomas (Quechua · Español)</div></div>
     </div>
   </div>
 </section>
 
-<!-- ===== IMAGE GALLERY ===== -->
+<!-- ===== GALLERY ===== -->
 <div class="gallery">
   <div class="container">
     <div class="gallery-grid reveal">
-      <div class="gallery-tile" style="background-image:url('https://agraria.pe/imgs/a/lx/inia-implementa-primer-nucleo-genetico-de-ganado-altoandino--36014.jpg')"><div class="cap">Ganado altoandino</div></div>
-      <div class="gallery-tile" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8-Sh3DC3hxwWRS7oolXCLIPm6udfXZD07hg&s')"><div class="cap">Sensores IoT en campo</div></div>
-      <div class="gallery-tile" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTGaOnKTbqKttzHjn-mF5PUvWM86gfCqb9tg&s')"><div class="cap">Comunidad & tecnología</div></div>
-      <div class="gallery-tile" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80')"><div class="cap">Sierra sur del Perú</div></div>
+      <div class="gallery-tile" style="background-image:url('https://agraria.pe/imgs/a/lx/inia-implementa-primer-nucleo-genetico-de-ganado-altoandino--36014.jpg')"><div class="cap" data-es="Ganado altoandino" data-qu="Qollana uywakuna">Ganado altoandino</div></div>
+      <div class="gallery-tile" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8-Sh3DC3hxwWRS7oolXCLIPm6udfXZD07hg&s')"><div class="cap" data-es="Sensores IoT en campo" data-qu="Chacra pi IoT sensorkuna">Sensores IoT en campo</div></div>
+      <div class="gallery-tile" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTGaOnKTbqKttzHjn-mF5PUvWM86gfCqb9tg&s')"><div class="cap" data-es="Comunidad & tecnología" data-qu="Ayllu & tecnología">Comunidad & tecnología</div></div>
+      <div class="gallery-tile" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80')"><div class="cap" data-es="Sierra sur del Perú" data-qu="Perú Qollana Suyu">Sierra sur del Perú</div></div>
     </div>
   </div>
 </div>
@@ -257,21 +252,21 @@
 <section class="bg-light" id="problema">
   <div class="container">
     <div class="sec-header center reveal">
-      <span class="tag-label">El problema real</span>
-      <h2>Cada helada es una crisis económica silenciosa</h2>
+      <span class="tag-label" data-es="El problema real" data-qu="Cheqaq sasa kay">El problema real</span>
+      <h2 data-es="Cada helada es una crisis económica silenciosa" data-qu="Sapa qasa hatun qollqe chinkaymi">Cada helada es una crisis económica silenciosa</h2>
     </div>
     <div class="grid-3">
       <article class="card-problem reveal" style="transition-delay:.08s">
-        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=800&q=80')"><span class="tag">Ganado · Sierra Sur</span></div>
-        <div class="body"><div class="stat">30–50%</div><p>Del ganado muere cada año por heladas y friajes en comunidades altoandinas, según reportes del SENAMHI.</p></div>
+        <div class="img" style="background-image:url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=800&q=80')"><span class="tag" data-es="Ganado · Sierra Sur" data-qu="Uywa · Qollana Suyu">Ganado · Sierra Sur</span></div>
+        <div class="body"><div class="stat">30–50%</div><p data-es="Del ganado muere cada año por heladas y friajes en comunidades altoandinas, según reportes del SENAMHI." data-qu="Sapa wata qasa chiri rayku 30-50% uywa wañun qollana ayllukunapi, SENAMHI willakusqanman hina.">Del ganado muere cada año por heladas y friajes en comunidades altoandinas, según reportes del SENAMHI.</p></div>
       </article>
       <article class="card-problem reveal" style="transition-delay:.16s">
-        <div class="img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8WWSZgZw3fBo9la20Wq53hA1lLJA6TEPzVg&s')"><span class="tag">Familia ganadera</span></div>
-        <div class="body"><div class="stat">S/. 8,000</div><p>Es la pérdida económica promedio por familia ganadera tras una sola temporada de heladas severas.</p></div>
+        <div class="img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8WWSZgZw3fBo9la20Wq53hA1lLJA6TEPzVg&s')"><span class="tag" data-es="Familia ganadera" data-qu="Uywaq familia">Familia ganadera</span></div>
+        <div class="body"><div class="stat">S/. 8,000</div><p data-es="Es la pérdida económica promedio por familia ganadera tras una sola temporada de heladas severas." data-qu="Sapa hatun qasa mit'api huk uywaq familia S/. 8,000 qollqe chinkachin.">Es la pérdida económica promedio por familia ganadera tras una sola temporada de heladas severas.</p></div>
       </article>
       <article class="card-problem reveal" style="transition-delay:.24s">
-        <div class="img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS7SPvYJgAXN_1VJDMHYSx-x7odcJiaPCkjQ&s')"><span class="tag">Paisaje altoandino</span></div>
-        <div class="body"><div class="stat">60%</div><p>De las comunidades no recibe alertas en quechua ni formatos accesibles, quedando excluidas de la prevención climática.</p></div>
+        <div class="img" style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRS7SPvYJgAXN_1VJDMHYSx-x7odcJiaPCkjQ&s')"><span class="tag" data-es="Paisaje altoandino" data-qu="Qollana hallp'a">Paisaje altoandino</span></div>
+        <div class="body"><div class="stat">60%</div><p data-es="De las comunidades no recibe alertas en quechua ni formatos accesibles, quedando excluidas de la prevención climática." data-qu="60% ayllukuna mana quechua simipi willakuyta chaskinkuchu, clima waqaychaymanta qarqosqa kashanku.">De las comunidades no recibe alertas en quechua ni formatos accesibles, quedando excluidas de la prevención climática.</p></div>
       </article>
     </div>
   </div>
@@ -281,33 +276,33 @@
 <section class="bg-dark" id="solucion">
   <div class="container">
     <div class="sec-header center reveal">
-      <span class="tag-label">Sillu-Alert en acción</span>
-      <h2>Sensores que cuidan tu tierra las 24 horas</h2>
+      <span class="tag-label" data-es="Sillu-Alert en acción" data-qu="Sillu-Alert llank'ashan">Sillu-Alert en acción</span>
+      <h2 data-es="Sensores que cuidan tu tierra las 24 horas" data-qu="Sensorkuna allpaykita tuta p'unchay waqaychanku">Sensores que cuidan tu tierra las 24 horas</h2>
     </div>
     <div class="grid-2">
       <article class="card-sol reveal" style="transition-delay:.08s">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><circle cx="12" cy="9" r="2"/></svg></div>
-        <h3>Sensores IoT en campo</h3>
-        <p>Estaciones ESP32 con DHT22, alimentación solar. Resistentes al clima extremo, instaladas en puntos estratégicos de cada comunidad.</p>
+        <h3 data-es="Sensores IoT en campo" data-qu="Chacra pi IoT sensorkuna">Sensores IoT en campo</h3>
+        <p data-es="Estaciones ESP32 con DHT22, alimentación solar. Resistentes al clima extremo, instaladas en puntos estratégicos de cada comunidad." data-qu="ESP32 estacionkuna DHT22 sensorwan, inticha mikhuchisqa. Chiri wayraman sinchi, sapa ayllupi allin cheqaspi churasqa.">Estaciones ESP32 con DHT22, alimentación solar. Resistentes al clima extremo, instaladas en puntos estratégicos de cada comunidad.</p>
         <span class="chip">Hardware</span>
       </article>
       <article class="card-sol reveal" style="transition-delay:.14s">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="1.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
-        <h3>Alertas bilingües</h3>
-        <p>Mensajes de voz pregrabados en quechua y español. El sistema detecta la temperatura crítica y emite la alerta en ambos idiomas.</p>
-        <span class="chip">Inclusión</span>
+        <h3 data-es="Alertas bilingües" data-qu="Iskay simipi willakuykuna">Alertas bilingües</h3>
+        <p data-es="Mensajes de voz pregrabados en quechua y español. El sistema detecta la temperatura crítica y emite la alerta en ambos idiomas." data-qu="Quechua español simikunapi rimasqa willakuykuna. Sistema chiri temperatura rikuspata iskay simikunapi willakamun.">Mensajes de voz pregrabados en quechua y español. El sistema detecta la temperatura crítica y emite la alerta en ambos idiomas.</p>
+        <span class="chip" data-es="Inclusión" data-qu="Llapanpaq">Inclusión</span>
       </article>
       <article class="card-sol reveal" style="transition-delay:.2s">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polyline points="6 10 10 14 18 6"/></svg></div>
-        <h3>Tablero de acción</h3>
-        <p>Sugerencias automáticas por nivel de alerta (verde, amarillo, rojo). Guía paso a paso para resguardar al ganado y activar protocolos comunales.</p>
-        <span class="chip">Inteligencia</span>
+        <h3 data-es="Tablero de acción" data-qu="Ruway tablero">Tablero de acción</h3>
+        <p data-es="Sugerencias automáticas por nivel de alerta (verde, amarillo, rojo). Guía paso a paso para resguardar al ganado y activar protocolos comunales." data-qu="Kikillanmanta yuyaychaykuna alerta nivelman hina (q'omer, q'ello, puka). Uywata waqaychanapaq ayllu ruwaykunata seq'achisqa.">Sugerencias automáticas por nivel de alerta (verde, amarillo, rojo). Guía paso a paso para resguardar al ganado y activar protocolos comunales.</p>
+        <span class="chip" data-es="Inteligencia" data-qu="Yachay">Inteligencia</span>
       </article>
       <article class="card-sol reveal" style="transition-delay:.26s">
         <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="1.5"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg></div>
-        <h3>Modo offline</h3>
-        <p>Funciona sin internet constante. Los sensores almacenan datos y sincronizan cuando hay conexión. Las alertas críticas se emiten siempre.</p>
-        <span class="chip">Resiliencia</span>
+        <h3 data-es="Modo offline" data-qu="Mana internetniyoq llank'ay">Modo offline</h3>
+        <p data-es="Funciona sin internet constante. Los sensores almacenan datos y sincronizan cuando hay conexión. Las alertas críticas se emiten siempre." data-qu="Mana internetta necesitaspa llank'an. Sensorkuna yuyayta waqaychan internet kashaqtin tupachin. Hatun willakuykunaqa hayk'aqpas lloqsimun.">Funciona sin internet constante. Los sensores almacenan datos y sincronizan cuando hay conexión. Las alertas críticas se emiten siempre.</p>
+        <span class="chip" data-es="Resiliencia" data-qu="Sinchi kay">Resiliencia</span>
       </article>
     </div>
   </div>
@@ -317,17 +312,32 @@
 <section class="bg-gray" id="impacto">
   <div class="container">
     <div class="sec-header center reveal">
-      <span class="tag-label">Impacto comprobable</span>
-      <h2>Menos pérdidas, más futuro para tu comunidad</h2>
+      <span class="tag-label" data-es="Impacto comprobable" data-qu="Rikusqa impacto">Impacto comprobable</span>
+      <h2 data-es="Menos pérdidas, más futuro para tu comunidad" data-qu="Pisilla chinkay, aswan qhepa p'unchay aylluykipaq">Menos pérdidas, más futuro para tu comunidad</h2>
     </div>
     <div class="grid-2">
-      <article class="card-impact reveal" style="transition-delay:.08s"><h3>Protección del patrimonio</h3><p>Hasta un 25% menos de mortandad de ganado durante heladas. Cada animal salvado es patrimonio familiar protegido.</p></article>
-      <article class="card-impact reveal" style="transition-delay:.14s"><h3>Comunidad autosuficiente</h3><p>Jóvenes locales capacitados en instalación y mantenimiento. La tecnología se transfiere y queda en manos de la comunidad.</p></article>
-      <article class="card-impact reveal" style="transition-delay:.2s"><h3>Equidad lingüística</h3><p>Los quechuahablantes —históricamente excluidos— son el centro del diseño. Alertas, interfaz y protocolos en su idioma materno.</p></article>
-      <article class="card-impact reveal" style="transition-delay:.26s"><h3>Diseñado contigo</h3><p>No desde un escritorio en Lima. Cada función co-diseñada con ganaderos y líderes comunales. Con ganaderos, para ganaderos.</p></article>
+      <article class="card-impact reveal" style="transition-delay:.08s">
+        <h3 data-es="Protección del patrimonio" data-qu="Herencia waqaychay">Protección del patrimonio</h3>
+        <p data-es="Hasta un 25% menos de mortandad de ganado durante heladas. Cada animal salvado es patrimonio familiar protegido." data-qu="Qasa mit'api 25% pisilla uywa wañuy. Sapa qespichisqa uywa familiata waqaychan.">Hasta un 25% menos de mortandad de ganado durante heladas. Cada animal salvado es patrimonio familiar protegido.</p>
+      </article>
+      <article class="card-impact reveal" style="transition-delay:.14s">
+        <h3 data-es="Comunidad autosuficiente" data-qu="Kikillanmanta ayllu">Comunidad autosuficiente</h3>
+        <p data-es="Jóvenes locales capacitados en instalación y mantenimiento. La tecnología se transfiere y queda en manos de la comunidad." data-qu="Wayna sipaskuna churana allichaypi yachachisqa. Tecnología aylluman qosqa, ayllupi qhepakun.">Jóvenes locales capacitados en instalación y mantenimiento. La tecnología se transfiere y queda en manos de la comunidad.</p>
+      </article>
+      <article class="card-impact reveal" style="transition-delay:.2s">
+        <h3 data-es="Equidad lingüística" data-qu="Simi kuska kay">Equidad lingüística</h3>
+        <p data-es="Los quechuahablantes —históricamente excluidos— son el centro del diseño. Alertas, interfaz y protocolos en su idioma materno." data-qu="Quechua rimaqkuna —wiñaypaq qarqosqa— diseñoq sonqonpi kanku. Willakuykuna, qawana, ruwaykuna maman siminkupi.">Los quechuahablantes —históricamente excluidos— son el centro del diseño. Alertas, interfaz y protocolos en su idioma materno.</p>
+      </article>
+      <article class="card-impact reveal" style="transition-delay:.26s">
+        <h3 data-es="Diseñado contigo" data-qu="Qanwan kuska ruwasqa">Diseñado contigo</h3>
+        <p data-es="No desde un escritorio en Lima. Cada función co-diseñada con ganaderos y líderes comunales. Con ganaderos, para ganaderos." data-qu="Manan Lima escritoriomantachu. Sapa ruway uywaqkuna ayllu umallikunawan kuska ruwasqa. Uywaqkunawan, uywaqkunapaq.">No desde un escritorio en Lima. Cada función co-diseñada con ganaderos y líderes comunales. Con ganaderos, para ganaderos.</p>
+      </article>
     </div>
     <div class="pills reveal">
-      <span class="pill">Impacto</span><span class="pill">Sostenibilidad</span><span class="pill">Participación</span><span class="pill">Equidad</span>
+      <span class="pill" data-es="Impacto" data-qu="Impacto">Impacto</span>
+      <span class="pill" data-es="Sostenibilidad" data-qu="Wiñaypaq">Sostenibilidad</span>
+      <span class="pill" data-es="Participación" data-qu="Yanapakuy">Participación</span>
+      <span class="pill" data-es="Equidad" data-qu="Kuska Kay">Equidad</span>
     </div>
   </div>
 </section>
@@ -337,39 +347,39 @@
   <div class="container">
     <div class="cta-grid">
       <div class="cta-left reveal">
-        <span class="tag-label">Solicita implementación</span>
-        <h2>Que tu comunidad sea la próxima en estar protegida</h2>
-        <p class="sub">Sillu-Alert se despliega gratuitamente en comunidades priorizadas. Déjanos tus datos y coordinamos una visita.</p>
+        <span class="tag-label" data-es="Solicita implementación" data-qu="Churanata mañakuy">Solicita implementación</span>
+        <h2 data-es="Que tu comunidad sea la próxima en estar protegida" data-qu="Aylluyki qatiqnin waqaychasqa kananpaq">Que tu comunidad sea la próxima en estar protegida</h2>
+        <p class="sub" data-es="Sillu-Alert se despliega gratuitamente en comunidades priorizadas. Déjanos tus datos y coordinamos una visita." data-qu="Sillu-Alert mana qollqeyoq ayllukunapi churasqa. Willakuykunaykita saqey, rispa tuparisun.">Sillu-Alert se despliega gratuitamente en comunidades priorizadas. Déjanos tus datos y coordinamos una visita.</p>
         <ul>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instalación y mantenimiento sin costo</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Capacitación técnica a jóvenes de la zona</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Alertas en quechua y español 24/7</li>
-          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Acompañamiento continuo todo el año</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-es="Instalación y mantenimiento sin costo" data-qu="Mana qollqeyoq churana allichaywan">Instalación y mantenimiento sin costo</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-es="Capacitación técnica a jóvenes de la zona" data-qu="Chaypi wayna sipaskuna yachachisqa">Capacitación técnica a jóvenes de la zona</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-es="Alertas en quechua y español 24/7" data-qu="Quechua español willakuykuna tuta p'unchay">Alertas en quechua y español 24/7</span></li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> <span data-es="Acompañamiento continuo todo el año" data-qu="Sapa wata tukuy tiempo yanapay">Acompañamiento continuo todo el año</span></li>
         </ul>
       </div>
       <div class="reveal">
         <form class="form-box" id="form">
-          <label for="n">Nombre / Comunidad</label>
-          <input type="text" id="n" placeholder="Ej: Juan Huamán · Comunidad de Phinaya" required>
-          <label for="d">Distrito / Provincia</label>
-          <input type="text" id="d" placeholder="Ej: Pitumarca · Canchis, Cusco" required>
-          <label for="r">Rol</label>
+          <label for="n" data-es="Nombre / Comunidad" data-qu="Sutiyki / Aylluyki">Nombre / Comunidad</label>
+          <input type="text" id="n" data-es-placeholder="Ej: Juan Huamán · Comunidad de Phinaya" data-qu-placeholder="Ej: Juan Huamán · Phinaya Ayllu" placeholder="Ej: Juan Huamán · Comunidad de Phinaya" required>
+          <label for="d" data-es="Distrito / Provincia" data-qu="Distrito / Provincia">Distrito / Provincia</label>
+          <input type="text" id="d" data-es-placeholder="Ej: Pitumarca · Canchis, Cusco" data-qu-placeholder="Ej: Pitumarca · Canchis, Qosqo" placeholder="Ej: Pitumarca · Canchis, Cusco" required>
+          <label for="r" data-es="Rol" data-qu="Imayna kasqayki">Rol</label>
           <select id="r" required>
-            <option value="" disabled selected>Selecciona tu rol</option>
-            <option value="lider">Líder comunal</option>
-            <option value="autoridad">Autoridad local / distrital</option>
-            <option value="institucion">Institución / ONG</option>
-            <option value="ganadero">Ganadero / Ganadera</option>
+            <option value="" disabled selected data-es="Selecciona tu rol" data-qu="Akllay imayna kasqaykita">Selecciona tu rol</option>
+            <option value="lider" data-es="Líder comunal" data-qu="Ayllu umalliq">Líder comunal</option>
+            <option value="autoridad" data-es="Autoridad local / distrital" data-qu="Llaqta / distrito umalliq">Autoridad local / distrital</option>
+            <option value="institucion" data-es="Institución / ONG" data-qu="Institución / ONG">Institución / ONG</option>
+            <option value="ganadero" data-es="Ganadero / Ganadera" data-qu="Uywaq / Uywaq warmi">Ganadero / Ganadera</option>
           </select>
-          <label for="t">Teléfono o correo</label>
-          <input type="text" id="t" placeholder="+51 987 654 321 · tu@email.com" required>
-          <button type="submit" class="btn-fill btn-full">Solicitar implementación →</button>
+          <label for="t" data-es="Teléfono o correo" data-qu="Telefono utaq correo">Teléfono o correo</label>
+          <input type="text" id="t" data-es-placeholder="+51 987 654 321 · tu@email.com" data-qu-placeholder="+51 987 654 321 · sutiyki@email.com" placeholder="+51 987 654 321 · tu@email.com" required>
+          <button type="submit" class="btn-fill btn-full" data-es="Solicitar implementación →" data-qu="Churanata mañakuy →">Solicitar implementación →</button>
         </form>
         <div class="form-box form-ok" id="ok">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00c853" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15.5 16 8.5"/></svg>
-          <h3>¡Solicitud recibida!</h3>
-          <p>Nos pondremos en contacto en los próximos días.</p>
-          <p class="q">Solicitudniyki chaskisqa. Qanwan tuparisun.</p>
+          <h3 data-es="¡Solicitud recibida!" data-qu="¡Mañakusqayki chaskisqa!">¡Solicitud recibida!</h3>
+          <p data-es="Nos pondremos en contacto en los próximos días." data-qu="Qhepa p'unchaykunapi tuparisun.">Nos pondremos en contacto en los próximos días.</p>
+          <p class="q" data-es="Solicitudniyki chaskisqa. Qanwan tuparisun." data-qu="Solicitudniyki chaskisqa. Qanwan tuparisun.">Solicitudniyki chaskisqa. Qanwan tuparisun.</p>
         </div>
       </div>
     </div>
@@ -384,18 +394,18 @@
     <div class="ft-grid">
       <div class="ft-brand">
         <span class="flogo">Sillu<span class="dot">Alert</span></span>
-        <p class="ftag">Tecnología que protege el corazón de los Andes</p>
-        <p class="fcredit">Instituto Khipu · Cusco, Perú · 2025</p>
+        <p class="ftag" data-es="Tecnología que protege el corazón de los Andes" data-qu="Sonqon Andeskunata waqaychaq tecnología">Tecnología que protege el corazón de los Andes</p>
+        <p class="fcredit" data-es="Instituto Khipu · Cusco, Perú · 2025" data-qu="Khipu Instituto · Qosqo, Perú · 2025">Instituto Khipu · Cusco, Perú · 2025</p>
       </div>
       <div class="ft-links">
-        <a href="#">Privacidad</a>
-        <a href="#contacto">Contacto</a>
-        <a href="#hero">Versión Quechua</a>
+        <a href="#" data-es="Privacidad" data-qu="Pakasqa kay">Privacidad</a>
+        <a href="#contacto" data-es="Contacto" data-qu="Tupay">Contacto</a>
+        <a href="#hero" data-es="Versión Quechua" data-qu="Quechua simipi">Versión Quechua</a>
       </div>
     </div>
     <div class="ft-bottom">
       <span>© 2025 Sillu-Alert</span>
-      <span>Hecho con propósito desde los Andes</span>
+      <span data-es="Hecho con propósito desde los Andes" data-qu="Andeskunamanta sonqowan ruwasqa">Hecho con propósito desde los Andes</span>
     </div>
   </div>
 </footer>
@@ -403,31 +413,108 @@
 <script>
 (()=>{
   'use strict'
-  // Navbar
-  const nav=document.getElementById('nav')
-  window.addEventListener('scroll',()=>nav.classList.toggle('on',scrollY>60),{passive:true})
-  // Mobile
-  const ham=document.getElementById('ham'),mob=document.getElementById('mob'),ml=mob.querySelectorAll('a')
-  function closeM(){ham.classList.remove('open');ham.setAttribute('aria-expanded','false');mob.classList.remove('active');mob.setAttribute('aria-hidden','true');document.body.style.overflow=''}
-  ham.onclick=()=>{if(mob.classList.contains('active'))closeM();else{ham.classList.add('open');ham.setAttribute('aria-expanded','true');mob.classList.add('active');mob.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}}
-  ml.forEach(l=>l.onclick=closeM)
-  // Reveal
-  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -30px 0px'})
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el))
-  // Count-up
-  const ns=document.querySelectorAll('.hero-stat .num span')
-  let done=false
-  function anim(el){const t=+el.dataset.target,d=1500,s=performance.now();function st(now){const p=Math.min((now-s)/d,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(e*t);if(p<1)requestAnimationFrame(st)}requestAnimationFrame(st)}
-  function chk(){if(done)return;const h=document.getElementById('hero'),r=h.getBoundingClientRect();if(r.bottom>0&&r.top<innerHeight){done=true;ns.forEach(anim)}}
-  window.addEventListener('scroll',chk,{passive:true});window.addEventListener('load',chk);chk()
-  // Form
-  const f=document.getElementById('form'),ok=document.getElementById('ok')
-  f.onsubmit=e=>{e.preventDefault();let v=true;f.querySelectorAll('[required]').forEach(i=>{if(!i.value.trim()){i.style.borderColor='#ef4444';v=false}else{i.style.borderColor='#222'}});if(!v)return;f.style.display='none';ok.classList.add('show');setTimeout(()=>{ok.classList.remove('show');f.style.display='';f.reset()},5000)}
-  document.querySelectorAll('#form input,#form select').forEach(el=>el.oninput=()=>el.style.borderColor='#222')
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{a.onclick=function(e){const t=this.getAttribute('href');if(t==='#')return;const el=document.querySelector(t);if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'})}}})
-  // Easter egg
-  const lo=document.getElementById('logo');lo.onclick=()=>alert('Allinllachu! Sillu-Alert qawarisunki.');lo.onkeydown=e=>{(e.key==='Enter'||e.key===' ')&&(e.preventDefault(),alert('Allinllachu! Sillu-Alert qawarisunki.'))}
+
+  // ── Lang system ──
+  let lang = localStorage.getItem('sillu-lang') || 'es'
+  const root = document.documentElement
+  const toggle = document.getElementById('langToggle')
+  const allTrans = document.querySelectorAll('[data-es][data-qu]')
+  const allPlaceholders = document.querySelectorAll('[data-es-placeholder][data-qu-placeholder]')
+
+  function applyLang(l) {
+    lang = l
+    root.setAttribute('data-lang', l)
+    root.setAttribute('lang', l === 'qu' ? 'qu' : 'es')
+    const attr = 'data-' + l
+
+    allTrans.forEach(el => {
+      const txt = el.getAttribute(attr)
+      if (txt !== null && txt !== undefined) el.textContent = txt
+    })
+
+    allPlaceholders.forEach(el => {
+      const ph = el.getAttribute(attr + '-placeholder')
+      if (ph !== null && ph !== undefined) el.placeholder = ph
+    })
+
+    // Update select default option text
+    const selOpt = document.querySelector('#r option[value=""]')
+    if (selOpt) {
+      const optTxt = selOpt.getAttribute(attr)
+      if (optTxt) selOpt.textContent = optTxt
+    }
+    // Update select options
+    document.querySelectorAll('#r option[data-es][data-qu]').forEach(opt => {
+      const t = opt.getAttribute(attr)
+      if (t) opt.textContent = t
+    })
+
+    // Toggle button
+    if (l === 'qu') {
+      toggle.textContent = 'ES'
+      toggle.classList.add('active-qu')
+      document.title = 'Sillu-Alert — Sonqon Andeskunata waqaychaq tecnología'
+    } else {
+      toggle.textContent = 'QU'
+      toggle.classList.remove('active-qu')
+      document.title = 'Sillu-Alert — Tecnología que protege el corazón de los Andes'
+    }
+
+    localStorage.setItem('sillu-lang', l)
+  }
+
+  toggle.addEventListener('click', () => applyLang(lang === 'es' ? 'qu' : 'es'))
+  applyLang(lang)
+
+  // ── Navbar scroll ──
+  const nav = document.getElementById('nav')
+  window.addEventListener('scroll', () => nav.classList.toggle('on', scrollY > 60), { passive: true })
+
+  // ── Mobile menu ──
+  const ham = document.getElementById('ham'), mob = document.getElementById('mob'), ml = mob.querySelectorAll('a')
+  function closeM() { ham.classList.remove('open'); ham.setAttribute('aria-expanded', 'false'); mob.classList.remove('active'); mob.setAttribute('aria-hidden', 'true'); document.body.style.overflow = '' }
+  ham.onclick = () => {
+    if (mob.classList.contains('active')) closeM()
+    else { ham.classList.add('open'); ham.setAttribute('aria-expanded', 'true'); mob.classList.add('active'); mob.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden' }
+  }
+  ml.forEach(l => l.onclick = closeM)
+
+  // ── Reveal animations ──
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target) } }) }, { threshold: .1, rootMargin: '0px 0px -30px 0px' })
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el))
+
+  // ── Count-up stats ──
+  const ns = document.querySelectorAll('.hero-stat .num span')
+  let done = false
+  function anim(el) { const t = +el.dataset.target, d = 1500, s = performance.now(); function st(now) { const p = Math.min((now - s) / d, 1), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(e * t); if (p < 1) requestAnimationFrame(st) } requestAnimationFrame(st) }
+  function chk() { if (done) return; const h = document.getElementById('hero'), r = h.getBoundingClientRect(); if (r.bottom > 0 && r.top < innerHeight) { done = true; ns.forEach(anim) } }
+  window.addEventListener('scroll', chk, { passive: true }); window.addEventListener('load', chk); chk()
+
+  // ── Form ──
+  const f = document.getElementById('form'), ok = document.getElementById('ok')
+  f.onsubmit = e => {
+    e.preventDefault(); let v = true
+    f.querySelectorAll('[required]').forEach(i => { if (!i.value.trim()) { i.style.borderColor = '#ef4444'; v = false } else { i.style.borderColor = '#222' } })
+    if (!v) return
+    f.style.display = 'none'; ok.classList.add('show')
+    setTimeout(() => { ok.classList.remove('show'); f.style.display = ''; f.reset() }, 5000)
+  }
+  document.querySelectorAll('#form input,#form select').forEach(el => el.oninput = () => el.style.borderColor = '#222')
+
+  // ── Smooth scroll ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => { a.onclick = function(e) { const t = this.getAttribute('href'); if (t === '#') return; const el = document.querySelector(t); if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }) } } })
+
+  // ── Easter egg ──
+  const lo = document.getElementById('logo')
+  lo.onclick = () => alert(lang === 'qu' ? 'Allinllachu! Sillu-Alert qawarisunki.' : 'Allinllachu! Sillu-Alert qawarisunki.')
+  lo.onkeydown = e => { (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), alert(lang === 'qu' ? 'Allinllachu! Sillu-Alert qawarisunki.' : 'Allinllachu! Sillu-Alert qawarisunki.')) }
+
+  // ── Re-observe translated elements for reveal animation ──
+  // After lang swap, re-trigger reveal observer for any newly visible elements
+  const mutationObs = new MutationObserver(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => io.observe(el))
+  })
+  mutationObs.observe(document.body, { childList: true, subtree: true, characterData: true })
 })()
 </script>
 
