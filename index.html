@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sillu-Alert: Sistema IoT de alerta temprana bilingüe (quechua/español) que protege el ganado ante heladas y friajes en la sierra sur del Perú.">
+  <meta name="theme-color" content="#0a3d1f">
+  <title>Sillu-Alert — Tecnología que protege el corazón de los Andes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==============================
+       RESET & VARIABLES
+       ============================== */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Inter',system-ui,sans-serif;
+      font-size:16px;font-weight:400;line-height:1.6;
+      color:#555;background:#fff;
+      -webkit-font-smoothing:antialiased;
+      overflow-x:hidden
+    }
+    img{display:block;max-width:100%}
+    a{text-decoration:none;color:inherit}
+    ul{list-style:none}
+
+    :root{
+      --g-deep:#0a3d1f;
+      --g-lime:#4ade80;
+      --g-lime-bright:#86efac;
+      --black:#111;
+      --white:#fff;
+      --soft:#f5f7f4;
+      --gray:#666;
+      --dark-card:#1a1a1a;
+      --dark-border:#2a2a2a;
+    }
+
+    /* ==============================
+       UTILITY
+       ============================== */
+    .container{width:100%;max-width:1140px;margin:0 auto;padding:0 28px}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+    /* Reveal */
+    .reveal{
+      opacity:0;transform:translateY(32px);
+      transition:opacity .75s cubic-bezier(.22,.61,.36,1),transform .75s cubic-bezier(.22,.61,.36,1)
+    }
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* Badge */
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+      padding:7px 16px;border-radius:100px
+    }
+    .badge-lime{background:rgba(74,222,128,.12);color:var(--g-lime)}
+    .badge-dark{background:var(--black);color:var(--g-lime)}
+    .badge-greendark{background:var(--g-deep);color:var(--white)}
+
+    /* ==============================
+       NAVBAR
+       ============================== */
+    .navbar{
+      position:fixed;top:0;left:0;right:0;z-index:1000;
+      padding:20px 0;transition:all .35s ease
+    }
+    .navbar.scrolled{
+      background:rgba(17,17,17,.94);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      box-shadow:0 4px 30px rgba(0,0,0,.25);
+      padding:12px 0
+    }
+    .navbar .container{display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-size:23px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:-.01em}
+    .nav-logo .a{color:var(--g-lime)}
+    .nav-links{display:flex;align-items:center;gap:34px}
+    .nav-links a{font-size:14px;font-weight:400;color:rgba(255,255,255,.72);transition:color .2s}
+    .nav-links a:hover{color:#fff}
+    .btn-nav{
+      font-size:13px;font-weight:600;color:#111;background:var(--g-lime);
+      padding:11px 24px;border-radius:100px;border:0;cursor:pointer;
+      transition:transform .2s,box-shadow .2s;
+      display:inline-flex;align-items:center;gap:5px
+    }
+    .btn-nav:hover{transform:scale(1.04);box-shadow:0 6px 22px rgba(74,222,128,.3)}
+    .btn-nav:active{transform:scale(.97)}
+
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:0;border:0;z-index:1001;padding:4px}
+    .hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+    .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+    .mob-overlay{
+      position:fixed;inset:0;z-index:999;background:rgba(17,17,17,.97);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+      opacity:0;pointer-events:none;transition:opacity .35s
+    }
+    .mob-overlay.active{opacity:1;pointer-events:auto}
+    .mob-overlay a{font-size:21px;color:rgba(255,255,255,.75);font-weight:500}
+    .mob-overlay a:hover{color:var(--g-lime)}
+    .mob-overlay .btn-nav{font-size:16px;padding:13px 36px}
+
+    /* ==============================
+       HERO
+       ============================== */
+    .hero{
+      position:relative;min-height:100vh;
+      display:flex;align-items:center;
+      padding:160px 0 110px;
+      background:var(--g-deep);
+      overflow:hidden
+    }
+    .hero-bg-img{
+      position:absolute;inset:0;z-index:0;
+      background:url('https://images.unsplash.com/photo-1526336178075-50c97db8d32a?w=1920&q=80') center/cover no-repeat;
+      opacity:.18;
+    }
+    .hero-pattern{
+      position:absolute;inset:0;z-index:1;
+      background:radial-gradient(ellipse at 30% 20%,rgba(74,222,128,.08) 0%,transparent 60%),
+                 radial-gradient(ellipse at 70% 70%,rgba(10,61,31,.6) 0%,transparent 60%),
+                 linear-gradient(180deg,rgba(10,61,31,.7) 0%,rgba(10,61,31,.95) 100%);
+    }
+    .hero .container{position:relative;z-index:2}
+    .hero-badge{margin-bottom:24px}
+    .hero h1{
+      font-size:clamp(34px,6vw,58px);font-weight:700;letter-spacing:-.025em;
+      color:#fff;line-height:1.1;max-width:780px
+    }
+    .hero h1 .hl{
+      color:var(--g-lime);position:relative;display:inline-block
+    }
+    .hero h1 .hl::after{
+      content:'';position:absolute;left:0;bottom:4px;width:100%;height:4px;
+      background:var(--g-lime);border-radius:2px;
+      transform:scaleX(0);transform-origin:left;
+      animation:uline .65s .4s cubic-bezier(.22,.61,.36,1) forwards
+    }
+    @keyframes uline{to{transform:scaleX(1)}}
+
+    .hero-sub{font-size:17px;color:rgba(255,255,255,.65);max-width:560px;margin-top:18px;line-height:1.6}
+    .hero-btns{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+    .btn-primary{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:14px;font-weight:600;color:#111;
+      background:var(--g-lime);border:0;padding:15px 32px;border-radius:100px;cursor:pointer;
+      transition:transform .2s,box-shadow .2s
+    }
+    .btn-primary:hover{transform:scale(1.04);box-shadow:0 8px 28px rgba(74,222,128,.35)}
+    .btn-primary:active{transform:scale(.97)}
+    .btn-outline{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:14px;font-weight:500;color:#fff;
+      background:0;border:1px solid rgba(255,255,255,.3);padding:15px 32px;border-radius:100px;cursor:pointer;
+      transition:all .2s
+    }
+    .btn-outline:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.5)}
+    .btn-outline:active{transform:scale(.97)}
+
+    /* Stats */
+    .hero-stats{
+      display:flex;gap:0;margin-top:70px;flex-wrap:wrap;
+      border-top:1px solid rgba(255,255,255,.08);padding-top:36px
+    }
+    .hero-stat{
+      flex:1;min-width:150px;padding:0 30px;
+      border-right:1px solid rgba(255,255,255,.08)
+    }
+    .hero-stat:last-child{border-right:0}
+    .hero-stat .n{font-size:34px;font-weight:700;color:var(--g-lime);font-variant-numeric:tabular-nums}
+    .hero-stat .l{font-size:12px;color:rgba(255,255,255,.45);margin-top:4px}
+
+    /* ==============================
+       SECTIONS
+       ============================== */
+    section{padding:110px 0}
+    .sec-head{text-align:center;margin-bottom:64px}
+    .sec-head .badge{margin-bottom:16px}
+    .sec-head h2{font-size:clamp(28px,4vw,38px);font-weight:600;letter-spacing:-.01em;line-height:1.25}
+    .bg-soft{background:var(--soft)}
+    .bg-dark{background:var(--black)}
+    .bg-green{background:var(--g-deep)}
+    .bg-white{background:var(--white)}
+
+    .bg-dark .sec-head h2,.bg-green .sec-head h2{color:#fff}
+    .bg-soft .sec-head h2,.bg-white .sec-head h2{color:var(--black)}
+
+    /* Section 2: El Problema */
+    .prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+    .prob-card{
+      background:#fff;border-radius:20px;overflow:hidden;
+      box-shadow:0 2px 16px rgba(0,0,0,.04);
+      transition:transform .4s cubic-bezier(.22,.61,.36,1),box-shadow .4s cubic-bezier(.22,.61,.36,1)
+    }
+    .prob-card:hover{transform:translateY(-6px);box-shadow:0 18px 42px rgba(10,61,31,.12)}
+    .prob-card-img{
+      height:200px;background-size:cover;background-position:center;
+      position:relative
+    }
+    .prob-card-img .overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(180deg,transparent 40%,rgba(10,61,31,.7) 100%);
+      display:flex;align-items:flex-end;padding:16px
+    }
+    .prob-card-img .overlay span{
+      color:rgba(255,255,255,.7);font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase
+    }
+    .prob-card-body{padding:26px}
+    .prob-card-body .big{font-size:30px;font-weight:700;color:var(--g-deep);line-height:1}
+    .prob-card-body p{font-size:14px;color:var(--gray);margin-top:10px;line-height:1.7}
+
+    /* Section 3: Solución */
+    .sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    .sol-card{
+      background:var(--dark-card);border:1px solid var(--dark-border);
+      border-radius:16px;padding:32px;
+      border-left:3px solid transparent;
+      transition:all .35s ease;position:relative;overflow:hidden
+    }
+    .sol-card:hover{background:#1f1f1f;border-left-color:var(--g-lime)}
+    .sol-card .icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+    .sol-card .icon svg{width:22px;height:22px}
+    .sol-card h3{font-size:17px;font-weight:600;color:#fff;margin-bottom:8px}
+    .sol-card p{font-size:14px;color:rgba(255,255,255,.48);line-height:1.7}
+    .sol-card .tag{
+      position:absolute;top:18px;right:18px;
+      background:var(--g-deep);color:var(--g-lime);
+      font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+      padding:4px 12px;border-radius:100px
+    }
+
+    /* Section 4: Impacto */
+    .imp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    .imp-card{
+      background:#fff;border-left:3px solid var(--g-deep);
+      padding:30px 28px 30px 22px;border-radius:0 14px 14px 0;
+      box-shadow:0 2px 14px rgba(0,0,0,.03);
+      transition:transform .35s,box-shadow .35s
+    }
+    .imp-card:hover{transform:translateX(5px);box-shadow:0 8px 26px rgba(10,61,31,.07)}
+    .imp-card h3{font-size:17px;font-weight:600;color:var(--black);margin-bottom:6px}
+    .imp-card p{font-size:14px;color:var(--gray);line-height:1.7}
+    .imp-pills{display:flex;gap:12px;margin-top:56px;flex-wrap:wrap;justify-content:center}
+    .imp-pill{
+      background:var(--g-deep);color:#fff;
+      font-size:12px;font-weight:600;padding:10px 24px;border-radius:100px;letter-spacing:.02em
+    }
+
+    /* Section 5: CTA */
+    .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    .cta-l .badge{margin-bottom:16px}
+    .cta-l h2{font-size:clamp(26px,4vw,36px);font-weight:600;color:#fff;line-height:1.2}
+    .cta-l .sub{color:rgba(255,255,255,.6);margin-top:14px;font-size:15px;line-height:1.7}
+    .cta-l ul{margin-top:24px}
+    .cta-l ul li{
+      display:flex;align-items:center;gap:10px;
+      color:rgba(255,255,255,.7);font-size:14px;margin-bottom:10px
+    }
+    .cta-l ul li svg{flex-shrink:0}
+    .cta-form{
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+      border-radius:20px;padding:38px;backdrop-filter:blur(8px)
+    }
+    .cta-form label{display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase}
+    .cta-form input,.cta-form select{
+      width:100%;padding:13px 18px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);
+      color:#fff;font-size:14px;font-family:inherit;margin-bottom:20px;outline:0;
+      transition:border-color .2s
+    }
+    .cta-form input::placeholder{color:rgba(255,255,255,.25)}
+    .cta-form input:focus,.cta-form select:focus{border-color:var(--g-lime)}
+    .cta-form select{
+      appearance:none;cursor:pointer;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23fff' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;background-position:right 16px center;padding-right:40px
+    }
+    .cta-form select option{background:#1a1a1a;color:#fff}
+    .btn-full{width:100%;justify-content:center;padding:16px;font-size:15px;margin-top:4px}
+    .form-ok{display:none;text-align:center;padding:40px 20px}
+    .form-ok.show{display:block}
+    .form-ok h3{color:var(--g-lime);font-size:22px;font-weight:600}
+    .form-ok p{color:rgba(255,255,255,.45);font-size:14px;margin-top:6px}
+    .form-ok .q{color:rgba(255,255,255,.35);font-size:14px;margin-top:8px;font-style:italic}
+
+    /* ==============================
+       IMAGE STRIP / GALLERY TEASER
+       ============================== */
+    .img-strip{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+      margin-top:72px
+    }
+    .img-strip .img-tile{
+      height:220px;border-radius:16px;background-size:cover;background-position:center;
+      position:relative;overflow:hidden;
+      transition:transform .4s cubic-bezier(.22,.61,.36,1)
+    }
+    .img-strip .img-tile:hover{transform:scale(1.03)}
+    .img-strip .img-tile::after{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(180deg,transparent 50%,rgba(10,61,31,.5) 100%)
+    }
+    .img-strip .img-tile .label{
+      position:absolute;bottom:14px;left:16px;right:16px;z-index:1;
+      color:#fff;font-size:12px;font-weight:500;letter-spacing:.03em
+    }
+
+    /* ==============================
+       FOOTER
+       ============================== */
+    footer{
+      background:var(--black);padding:60px 0 36px;
+      color:rgba(255,255,255,.4);font-size:13px
+    }
+    .ft-grid{display:grid;grid-template-columns:2fr 1fr;gap:50px}
+    .ft-brand .flogo{font-size:22px;font-weight:700;color:#fff}
+    .ft-brand .flogo .a{color:var(--g-lime)}
+    .ft-brand .ftag{color:rgba(255,255,255,.4);margin-top:8px;font-size:13px}
+    .ft-brand .fcredit{margin-top:4px;font-size:11px;color:rgba(255,255,255,.2)}
+    .ft-links{display:flex;flex-direction:column;gap:6px;align-items:flex-end;justify-content:flex-end}
+    .ft-links a{color:rgba(255,255,255,.4);font-size:13px;transition:color .2s}
+    .ft-links a:hover{color:var(--g-lime)}
+    .ft-bottom{border-top:1px solid rgba(255,255,255,.05);margin-top:40px;padding-top:20px;display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.25)}
+
+    /* ==============================
+       RESPONSIVE
+       ============================== */
+    @media(max-width:900px){
+      .prob-grid{grid-template-columns:repeat(2,1fr)}
+      .prob-card:last-child{grid-column:1/-1;max-width:420px;justify-self:center}
+    }
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .hero{padding:130px 0 80px;text-align:center}
+      .hero h1{max-width:100%}
+      .hero-sub{max-width:100%;margin-left:auto;margin-right:auto}
+      .hero-btns{justify-content:center}
+      .hero-stats{gap:16px;justify-content:center}
+      .hero-stat{flex:1 1 calc(50% - 16px);border-right:0!important;padding:0 12px;min-width:0;text-align:center}
+      .hero-stat .n{font-size:28px}
+      .prob-grid,.sol-grid,.imp-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+      .cta-grid{grid-template-columns:1fr;gap:40px}
+      .ft-grid{grid-template-columns:1fr;gap:28px;text-align:center}
+      .ft-links{align-items:center}
+      .ft-bottom{flex-direction:column;gap:6px;text-align:center;align-items:center}
+      .img-strip{grid-template-columns:repeat(2,1fr)}
+      section{padding:80px 0}
+    }
+    @media(max-width:480px){
+      .hero-btns{flex-direction:column;width:100%}
+      .hero-btns .btn-primary,.hero-btns .btn-outline{width:100%;justify-content:center}
+      .hero-stat{flex:1 1 100%;border-bottom:1px solid rgba(255,255,255,.06);padding:10px 0}
+      .hero-stat:last-child{border-bottom:0}
+      .hero-stats{margin-top:44px;padding-top:24px}
+      .img-strip{grid-template-columns:1fr 1fr;gap:10px}
+      .img-strip .img-tile{height:160px}
+      .cta-form{padding:26px}
+      .prob-grid{grid-template-columns:1fr}
+      .prob-card:last-child{max-width:100%}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<header>
+  <nav class="navbar" id="nav" role="navigation" aria-label="Principal">
+    <div class="container">
+      <span class="nav-logo" id="logo" tabindex="0" role="button" aria-label="Sillu-Alert logo">Sillu<span class="a">Alert</span></span>
+      <div class="nav-links">
+        <a href="#problema">Problema</a>
+        <a href="#solucion">Solución</a>
+        <a href="#impacto">Impacto</a>
+        <a href="#contacto">Contacto</a>
+        <a class="btn-nav" href="#contacto">Únete <span aria-hidden="true">→</span></a>
+      </div>
+      <button class="hamburger" id="ham" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mob-overlay" id="mob" aria-hidden="true">
+    <a href="#problema">Problema</a>
+    <a href="#solucion">Solución</a>
+    <a href="#impacto">Impacto</a>
+    <a href="#contacto">Contacto</a>
+    <a class="btn-nav" href="#contacto">Únete <span aria-hidden="true">→</span></a>
+  </div>
+</header>
+
+<main>
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-img" aria-hidden="true"></div>
+    <div class="hero-pattern" aria-hidden="true"></div>
+    <div class="container">
+      <span class="badge badge-lime reveal">Sistema IoT · Alerta Temprana · Sierra Sur del Perú</span>
+      <h1 class="reveal">Tecnología que protege el <span class="hl">corazón</span> de los Andes</h1>
+      <p class="hero-sub reveal">Alertas climáticas bilingües en tiempo real para salvar tu ganado y asegurar el futuro de tu familia.</p>
+      <div class="hero-btns reveal">
+        <a href="#contacto" class="btn-primary">Únete a la Red <span aria-hidden="true">→</span></a>
+        <a href="#solucion" class="btn-outline">Ver cómo funciona</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="hero-stat"><span class="n" data-target="5">0</span><span class="l">Estaciones activas</span></div>
+        <div class="hero-stat"><span class="n" data-target="25" data-suffix="%">0</span><span class="l">− Pérdida de ganado</span></div>
+        <div class="hero-stat"><span class="n" data-target="90" data-suffix="%">0</span><span class="l">Adopción comunal</span></div>
+        <div class="hero-stat"><span class="n" data-target="2">0</span><span class="l">Idiomas (Quechua · Español)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== IMAGE STRIP ========== -->
+  <div class="container" style="margin-top:-50px;position:relative;z-index:5">
+    <div class="img-strip reveal">
+      <div class="img-tile" style="background-image:url('https://images.unsplash.com/photo-1534011546713-407074b0dc65?w=600&q=80')"><span class="label">Ganado altoandino</span></div>
+      <div class="img-tile" style="background-image:url('https://images.unsplash.com/photo-1580674684081-7617fbf3fcf9?w=600&q=80')"><span class="label">Sensores IoT en campo</span></div>
+      <div class="img-tile" style="background-image:url('https://images.unsplash.com/photo-1526953208973-f6b361d9ec5e?w=600&q=80')"><span class="label">Comunidad & tecnología</span></div>
+      <div class="img-tile" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80')"><span class="label">Sierra sur del Perú</span></div>
+    </div>
+  </div>
+
+  <!-- ========== EL PROBLEMA ========== -->
+  <section class="bg-soft" id="problema">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="badge badge-dark">El problema real</span>
+        <h2>Cada helada es una crisis económica silenciosa</h2>
+      </div>
+      <div class="prob-grid">
+        <article class="prob-card reveal" style="transition-delay:.1s">
+          <div class="prob-card-img" style="background-image:url('https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=800&q=80')">
+            <div class="overlay"><span>Ganado · Sierra Sur</span></div>
+          </div>
+          <div class="prob-card-body">
+            <div class="big">30–50%</div>
+            <p>Del ganado muere cada año por heladas y friajes en comunidades altoandinas, según reportes del SENAMHI y diagnósticos comunales.</p>
+          </div>
+        </article>
+        <article class="prob-card reveal" style="transition-delay:.2s">
+          <div class="prob-card-img" style="background-image:url('https://images.unsplash.com/photo-1528505166613-8f3e94d7e847?w=800&q=80')">
+            <div class="overlay"><span>Familia ganadera</span></div>
+          </div>
+          <div class="prob-card-body">
+            <div class="big">S/. 8,000</div>
+            <p>Es la pérdida económica promedio por familia ganadera tras una sola temporada de heladas severas.</p>
+          </div>
+        </article>
+        <article class="prob-card reveal" style="transition-delay:.3s">
+          <div class="prob-card-img" style="background-image:url('https://images.unsplash.com/photo-1516979187457-637abb4f9351?w=800&q=80')">
+            <div class="overlay"><span>Paisaje altoandino</span></div>
+          </div>
+          <div class="prob-card-body">
+            <div class="big">60%</div>
+            <p>De las comunidades no recibe alertas en quechua ni en formatos accesibles, quedando excluidas del sistema de prevención climática.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LA SOLUCIÓN ========== -->
+  <section class="bg-dark" id="solucion">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="badge" style="background:var(--g-deep);color:var(--g-lime)">Sillu-Alert en acción</span>
+        <h2>Sensores que cuidan tu tierra las 24 horas</h2>
+      </div>
+      <div class="sol-grid">
+        <article class="sol-card reveal" style="transition-delay:.1s">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><circle cx="12" cy="9" r="2"/></svg></div>
+          <h3>Sensores IoT en campo</h3>
+          <p>Estaciones ESP32 con sensores DHT22 alimentadas por paneles solares. Resistentes al clima extremo, instaladas en puntos estratégicos de cada comunidad.</p>
+          <span class="tag">Hardware</span>
+        </article>
+        <article class="sol-card reveal" style="transition-delay:.15s">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+          <h3>Alertas bilingües</h3>
+          <p>Mensajes de voz pregrabados en quechua y español. El sistema detecta la temperatura crítica y emite la alerta en ambos idiomas para que nadie quede fuera.</p>
+          <span class="tag">Inclusión</span>
+        </article>
+        <article class="sol-card reveal" style="transition-delay:.2s">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><polyline points="6 10 10 14 18 6"/></svg></div>
+          <h3>Tablero de acción</h3>
+          <p>Sugerencias automáticas por nivel de alerta (verde, amarillo, rojo). Guía paso a paso: desde resguardar al ganado hasta activar protocolos comunales de emergencia.</p>
+          <span class="tag">Inteligencia</span>
+        </article>
+        <article class="sol-card reveal" style="transition-delay:.25s">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg></div>
+          <h3>Modo offline</h3>
+          <p>Funciona sin internet constante. Los sensores almacenan datos localmente y sincronizan cuando hay conexión. Las alertas críticas se emiten siempre, sin depender de la red.</p>
+          <span class="tag">Resiliencia</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== IMPACTO ========== -->
+  <section class="bg-white" id="impacto">
+    <div class="container">
+      <div class="sec-head reveal">
+        <span class="badge badge-greendark">Impacto comprobable</span>
+        <h2>Menos pérdidas, más futuro para tu comunidad</h2>
+      </div>
+      <div class="imp-grid">
+        <article class="imp-card reveal" style="transition-delay:.1s">
+          <h3>Protección del patrimonio</h3>
+          <p>Las comunidades que usan Sillu-Alert reportan hasta un 25% menos de mortandad de ganado durante la temporada de heladas. Cada animal salvado es patrimonio familiar protegido.</p>
+        </article>
+        <article class="imp-card reveal" style="transition-delay:.15s">
+          <h3>Comunidad autosuficiente</h3>
+          <p>Jóvenes locales son capacitados en instalación y mantenimiento de sensores. La tecnología no se impone: se transfiere y queda en manos de la comunidad.</p>
+        </article>
+        <article class="imp-card reveal" style="transition-delay:.2s">
+          <h3>Equidad lingüística</h3>
+          <p>Los quechuahablantes —históricamente excluidos de la tecnología— son el centro del diseño. La interfaz, las alertas y los protocolos están en su idioma materno.</p>
+        </article>
+        <article class="imp-card reveal" style="transition-delay:.25s">
+          <h3>Diseñado contigo</h3>
+          <p>No desarrollamos desde un escritorio en Lima. Cada función fue co-diseñada con ganaderos, líderes comunales y saberes locales. Con ganaderos, para ganaderos.</p>
+        </article>
+      </div>
+      <div class="imp-pills reveal">
+        <span class="imp-pill">Impacto</span>
+        <span class="imp-pill">Sostenibilidad</span>
+        <span class="imp-pill">Participación</span>
+        <span class="imp-pill">Equidad</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA FORM ========== -->
+  <section class="bg-green" id="contacto">
+    <div class="container">
+      <div class="cta-grid">
+        <div class="cta-l reveal">
+          <span class="badge badge-lime">Solicita implementación</span>
+          <h2>Que tu comunidad sea la próxima en estar protegida</h2>
+          <p class="sub">Sillu-Alert se despliega gratuitamente en comunidades priorizadas. Déjanos tus datos y coordinamos una visita.</p>
+          <ul>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Instalación y mantenimiento sin costo</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Capacitación técnica a jóvenes de la zona</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Alertas en quechua y español 24/7</li>
+            <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Acompañamiento continuo todo el año</li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <form class="cta-form" id="form">
+            <label for="nom">Nombre / Comunidad</label>
+            <input type="text" id="nom" placeholder="Ej: Juan Huamán · Comunidad de Phinaya" required>
+            <label for="dis">Distrito / Provincia</label>
+            <input type="text" id="dis" placeholder="Ej: Pitumarca · Canchis, Cusco" required>
+            <label for="rol">Rol</label>
+            <select id="rol" required>
+              <option value="" disabled selected>Selecciona tu rol</option>
+              <option value="lider">Líder comunal</option>
+              <option value="autoridad">Autoridad local / distrital</option>
+              <option value="institucion">Institución / ONG</option>
+              <option value="ganadero">Ganadero / Ganadera</option>
+            </select>
+            <label for="tel">Teléfono o correo electrónico</label>
+            <input type="text" id="tel" placeholder="+51 987 654 321 · tu@email.com" required>
+            <button type="submit" class="btn-primary btn-full">Solicitar implementación <span aria-hidden="true">→</span></button>
+          </form>
+          <div class="cta-form form-ok" id="ok">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15.5 16 8.5"/></svg>
+            <h3>¡Solicitud recibida!</h3>
+            <p>Nos pondremos en contacto en los próximos días.</p>
+            <p class="q">Solicitudniyki chaskisqa. Qanwan tuparisun.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <span class="flogo">Sillu<span class="a">Alert</span></span>
+        <p class="ftag">Tecnología que protege el corazón de los Andes</p>
+        <p class="fcredit">Instituto Khipu · Cusco, Perú · 2025</p>
+      </div>
+      <div class="ft-links">
+        <a href="#">Privacidad</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#hero">Versión Quechua</a>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>© 2025 Sillu-Alert. Todos los derechos reservados.</span>
+      <span>Hecho con propósito desde los Andes.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+(()=>{
+  'use strict';
+
+  // ── Navbar scroll
+  const nav=document.getElementById('nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>80),{passive:true});
+
+  // ── Mobile menu
+  const ham=document.getElementById('ham'),mob=document.getElementById('mob'),ml=mob.querySelectorAll('a');
+  function openM(){ham.classList.add('open');ham.setAttribute('aria-expanded','true');mob.classList.add('active');mob.setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}
+  function closeM(){ham.classList.remove('open');ham.setAttribute('aria-expanded','false');mob.classList.remove('active');mob.setAttribute('aria-hidden','true');document.body.style.overflow=''}
+  ham.onclick=()=>mob.classList.contains('active')?closeM():openM();
+  ml.forEach(l=>l.onclick=closeM);
+
+  // ── Reveal
+  const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // ── Count-up
+  const nums=document.querySelectorAll('.hero-stat .n');
+  let counted=false;
+  function anim(n){
+    const t=+n.dataset.target,s=n.dataset.suffix||'',d=1600,b=performance.now();
+    function sT(now){const p=Math.min((now-b)/d,1),e=1-Math.pow(1-p,3);n.textContent=Math.round(e*t)+s;if(p<1)requestAnimationFrame(sT)}
+    requestAnimationFrame(sT)
+  }
+  function check(){
+    if(counted)return;
+    const h=document.getElementById('hero'),r=h.getBoundingClientRect();
+    if(r.bottom>0&&r.top<innerHeight){counted=true;nums.forEach(anim)}
+  }
+  window.addEventListener('scroll',check,{passive:true});
+  window.addEventListener('load',check);
+  check();
+
+  // ── Form
+  const f=document.getElementById('form'),ok=document.getElementById('ok');
+  f.onsubmit=e=>{
+    e.preventDefault();
+    let v=true;
+    f.querySelectorAll('[required]').forEach(i=>{if(!i.value.trim()){i.style.borderColor='#ef4444';v=false}else{i.style.borderColor='rgba(255,255,255,.12)'}});
+    if(!v)return;
+    f.style.display='none';ok.classList.add('show');
+    setTimeout(()=>{ok.classList.remove('show');f.style.display='';f.reset()},5000)
+  };
+  document.querySelectorAll('#form input,#form select').forEach(el=>el.oninput=()=>el.style.borderColor='rgba(255,255,255,.12)');
+
+  // ── Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{a.onclick=function(e){const t=this.getAttribute('href');if(t==='#')return;const el=document.querySelector(t);if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'})}}});
+
+  // ── Easter egg
+  const logo=document.getElementById('logo');
+  logo.onclick=()=>alert('Allinllachu! Sillu-Alert qawarisunki.');
+  logo.onkeydown=e=>{(e.key==='Enter'||e.key===' ')&&(e.preventDefault(),alert('Allinllachu! Sillu-Alert qawarisunki.'))};
+})();
+</script>
+
+</body>
+</html>
